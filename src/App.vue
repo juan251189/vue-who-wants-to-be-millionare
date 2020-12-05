@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     nextQuestion() {
-    this.scoreShow=true;
+
     var v =this;
       v.score += 1;
       setTimeout(function(){
@@ -83,6 +83,9 @@ export default {
         v.currentQuestion=v.questions[v.index];
         v.scoreShow=false;
       }, 3000);
+
+        setTimeout(function(){v.scoreShow=true;},1000);
+
     }
   },
   components: {

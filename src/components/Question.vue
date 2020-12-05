@@ -1,6 +1,7 @@
 <template>
 <div id="question" class="row ">
-  <h1 :style="selectedClass">asdfsdfasd</h1>
+  <!-- testing the binding style from functiion -->
+  <h1 :style="{color:colorAnswer}">asdfsdfasd</h1>
   <div class="col-12 question-title">{{question.Question}} ?</div>
 
   <div class="col-6 question-options" v-for="(option,i) in question.answers" :key="i">
@@ -31,26 +32,53 @@ export default {
 
   data: () => ({
     selected: "",
-    result: ''
+    result: '',
+    colorAnswer: ''
   }),
   props: ['question'],
   methods: {
     submit() {
+
+
       let value = this.selected;
-      let correctAnswer='rgb(39, 187, 103)';
-      let wrongAnswer='rgb(190, 33, 33)';
-      if (value == this.question.solution) {
-        this.result = 'correct';
-      this.selectedClass(correctAnswer);
-        this.$emit('nextquestion');
+      let correctAnswer = 'rgb(39, 187, 103)';
+      let wrongAnswer = 'rgb(190, 33, 33)';
 
+      if (this.selected != '') {
+        if (value == this.question.solution) {
+          //this.selectedClass(correctAnswer);
+          this.result = 'correct';
+          this.showAnswer(correctAnswer);
+          this.$emit('nextquestion');
+        }
+        /* calling a function that is gonna return an object
+        i need to figure out how to style an element receiving an object */
+        else {
+          this.showAnswer(wrongAnswer)
+        }
+        this.colorAnswer = '';
       } else {
-        this.selectedClass(wrongAnswer);
+        alert("Please select one option")
       }
-
     },
     selectedClass(arg) {
-          return{color:arg};
+      console.log(arg);
+      return (true)
+    },
+    showAnswer(arg) {
+
+      var v = this;
+      setTimeout(function() {
+        v.colorAnswer = arg;
+
+
+      }, 1000)
+    }
+  },
+  watch: {
+    question: function() {
+      this.colorAnswer = '';
+      this.selected = '';
     }
   }
 }
